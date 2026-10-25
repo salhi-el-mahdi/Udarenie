@@ -1,0 +1,1 @@
+export { annotateWord } from "./annotate-word";
