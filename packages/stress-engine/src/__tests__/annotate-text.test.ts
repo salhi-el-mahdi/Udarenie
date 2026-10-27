@@ -1,15 +1,24 @@
 import { describe, it, expect } from "vitest";
 import { annotateText } from "../annotate-text";
+import { dictionaryFromEntries } from "./helpers/test-dictionary";
+
+const dictionary = dictionaryFromEntries({
+  русский: 1,
+  язык: 2,
+  люблю: 4,
+  молоко: 5,
+  "а-ля": 3,
+});
 
 describe("annotateText", () => {
   it("annotates a single capitalized word", () => {
-    expect(annotateText("Русский"))
+    expect(annotateText("Русский", dictionary))
       .toBe("Ру́сский");
   });
 
   it("annotates a simple sentence", () => {
     expect(
-      annotateText("Я люблю русский язык")
+      annotateText("Я люблю русский язык", dictionary)
     ).toBe(
       "Я люблю́ ру́сский язы́к"
     );
@@ -17,7 +26,7 @@ describe("annotateText", () => {
 
   it("preserves punctuation", () => {
     expect(
-      annotateText("Я люблю русский язык.")
+      annotateText("Я люблю русский язык.", dictionary)
     ).toBe(
       "Я люблю́ ру́сский язы́к."
     );
@@ -25,13 +34,13 @@ describe("annotateText", () => {
 
   it("preserves uppercase words", () => {
     expect(
-      annotateText("РУССКИЙ")
+      annotateText("РУССКИЙ", dictionary)
     ).toBe(
       "РУ́ССКИЙ"
     );
   });
 
   it("does not add a second stress mark to an already-stressed word", () => {
-    expect(annotateText("молоко\u0301")).toBe("молоко\u0301");
+    expect(annotateText("молоко\u0301", dictionary)).toBe("молоко\u0301");
   });
 });
