@@ -9,10 +9,13 @@
   "scripts": {
     "lint": "eslint .",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "build:dictionary": "tsx scripts/build-dictionary.ts"
   },
   "devDependencies": {
     "@repo/typescript-config": "workspace:*",
+    "@types/node": "26.4.1",
+    "tsx": "^4.23.15",
     "vitest": "^5.0.5"
   }
 }
