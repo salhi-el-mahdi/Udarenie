@@ -32,6 +32,6 @@ describe("annotateText", () => {
   });
 
   it("does not add a second stress mark to an already-stressed word", () => {
-  expect(annotateText("молоко\u0301")).toBe("молоко\u0301");
+    expect(annotateText("молоко\u0301")).toBe("молоко\u0301");
   });
 });
