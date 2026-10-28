@@ -8,6 +8,9 @@ const dictionary = dictionaryFromEntries({
   люблю: 4,
   молоко: 5,
   "а-ля": 3,
+  привет: 4,
+  мир: 1,
+  пришёл: 4,
 });
 
 describe("annotateWord hyphens", () => {
@@ -21,5 +24,41 @@ describe("annotateWord hyphens", () => {
 
   it("leaves a lone hyphen alone", () => {
     expect(annotateWord("-", dictionary)).toBe("-");
+  });
+});
+
+describe("annotateWord stress rules", () => {
+  it("word with ё ", () => {
+    expect(annotateWord("пришёл", dictionary)).toBe("пришёл");
+  });
+
+  it("throws when the index is greater than the word length", () => {
+    const bad = dictionaryFromEntries({
+      молоко: 99,
+    });
+
+    expect(() =>
+      annotateWord("молоко", bad)
+    ).toThrow();
+  });
+
+  it("throws when the index points to a consonant", () => {
+    const bad = dictionaryFromEntries({
+      молоко: 4,
+    });
+
+    expect(() =>
+      annotateWord("молоко", bad)
+    ).toThrow();
+  });
+
+  it("throws when the index is negative", () => {
+    const bad = dictionaryFromEntries({
+      молоко: -1,
+    });
+
+    expect(() =>
+      annotateWord("молоко", bad)
+    ).toThrow();
   });
 });

@@ -8,6 +8,9 @@ const dictionary = dictionaryFromEntries({
   люблю: 4,
   молоко: 5,
   "а-ля": 3,
+  привет: 4,
+  мир: 1,
+  пришёл: 4,
 });
 
 describe("annotateText", () => {
@@ -42,5 +45,9 @@ describe("annotateText", () => {
 
   it("does not add a second stress mark to an already-stressed word", () => {
     expect(annotateText("молоко\u0301", dictionary)).toBe("молоко\u0301");
+  });
+
+  it("first word should be annotated and the second one is only one syllable", () => {
+    expect(annotateText("Привет, мир!", dictionary)).toBe("Приве\u0301т, мир!");
   });
 });
