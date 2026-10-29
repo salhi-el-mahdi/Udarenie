@@ -1,0 +1,25 @@
+{
+    "name": "@udarenie/api",
+    "version": "0.0.1",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "dev": "tsx watch src/server.ts",
+        "start": "tsx src/server.ts",
+        "test": "vitest run"
+    },
+    "dependencies": {
+        "@udarenie/shared-types": "workspace:*",
+        "@udarenie/stress-engine": "workspace:*",
+        "express": "^5.3.0"
+    },
+    "devDependencies": {
+        "@repo/typescript-config": "workspace:*",
+        "@types/express": "^5.0.6",
+        "@types/node": "26.4.1",
+        "@types/supertest": "^7.2.1",
+        "supertest": "^7.3.1",
+        "tsx": "^4.23.15",
+        "vitest": "^5.0.5"
+    }
+}
