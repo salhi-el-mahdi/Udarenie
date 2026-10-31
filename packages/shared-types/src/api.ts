@@ -13,7 +13,7 @@ export interface HealthResponse {
     dictionaryEntries: number;
 }
 
-export type ApiErrorCode = "INVALID_REQUEST" | "TEXT_TOO_LONG" | "INTERNAL_ERROR";
+export type ApiErrorCode = "INVALID_REQUEST" | "TEXT_TOO_LONG" | "NOT_FOUND" | "INTERNAL_ERROR";
 
 export interface ApiError {
     error: {

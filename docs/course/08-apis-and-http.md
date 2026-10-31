@@ -138,6 +138,25 @@ Invoke-RestMethod -Method Post -Uri http://localhost:4000/stress -ContentType "a
 
 A browser can only make simple `GET` requests by typing an address; for everything else use these tools, or a client like Postman or Insomnia.
 
+## 10. Text encoding over HTTP (why you sometimes see `?`)
+
+HTTP carries **bytes**, not text. Text is turned into bytes by an **encoding** (almost always **UTF-8** on the web) and turned back by the receiver. Both sides must agree.
+
+- The `Content-Type` header can declare it: `application/json; charset=utf-8`. JSON is defined to be UTF-8, and servers like Express read it that way.
+- If a client encodes with a **narrower encoding** (for example Latin-1, which has no Cyrillic, Greek or Chinese letters), characters it cannot represent are replaced with `?` **before they are sent**. The server then receives genuine question marks. It did nothing wrong, and nothing on the server can restore what was lost.
+- Garbled text with odd symbols (`Ð¿Ñ€Ð¸Ð²ÐµÑ‚`) is the opposite mistake: UTF-8 bytes decoded with the wrong encoding. It is called **mojibake**.
+- **How to tell which side is at fault:** test the server from code that is known to send UTF-8 (a supertest test, or a small Node script). If that works, the fault is in the client or the terminal. A terminal can also *display* correct text as `?` when its output encoding is not UTF-8, so check the actual characters (for example, ask whether the result contains a specific code point) instead of trusting how it looks.
+- Windows PowerShell 5.1 is a known trap: a string passed to `Invoke-RestMethod -Body` without a charset is encoded in a narrow legacy encoding. Send UTF-8 bytes explicitly and declare the charset:
+
+```powershell
+$json  = @{ text = "Привет" } | ConvertTo-Json
+$bytes = [System.Text.Encoding]::UTF8.GetBytes($json)
+Invoke-RestMethod -Method Post -Uri http://localhost:4000/stress `
+  -ContentType "application/json; charset=utf-8" -Body $bytes
+```
+
+PowerShell 7 and later default to UTF-8. Check your version with `$PSVersionTable.PSVersion`.
+
 ## Common mistakes
 
 - Starting to write server code before the contract is clear.
@@ -147,6 +166,7 @@ A browser can only make simple `GET` requests by typing an address; for everythi
 - Forgetting the body-size limit.
 - Doing long CPU work inside a request handler in Node.
 - Starting a server inside the function that builds the app, which makes testing hard.
+- Blaming the server for `?` characters that a client with the wrong encoding produced.
 
 ## Practice
 
