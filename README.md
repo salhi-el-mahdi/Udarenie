@@ -1,159 +1,146 @@
-# Turborepo starter
+# Udarenie
 
-This Turborepo starter is maintained by the Turborepo core team.
+Udarenie adds stress marks to Russian text, so learners can read without guessing where the stress falls. It consists of a stress annotation engine and a REST API, with web, EPUB and mobile clients planned.
 
-## Using this example
+## Example
 
-Run the following command:
+Input:
 
-```sh
-npx create-turbo@latest
+```text
+Я люблю русский язык.
 ```
 
-## What's inside?
+Output:
 
-This Turborepo includes the following packages/apps:
-
-### Apps and Packages
-
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `@next/eslint-plugin-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
-
-```sh
-cd my-turborepo
-turbo build
+```text
+Я люблю́ ру́сский язы́к.
 ```
 
-Without global `turbo`, use your package manager:
+Written Russian normally omits stress marks, which leaves learners unsure how words are pronounced. Udarenie adds them automatically.
 
-```sh
-cd my-turborepo
-npx turbo build
-pnpm exec turbo build
-pnpm exec turbo build
+## Features
+
+- Stress marks added to running text, with punctuation, spacing and capitalization preserved
+- A dictionary of about 3 million word forms, generated from a public Wiktionary-based dataset
+- Fast lookups with a small memory footprint: the dictionary is a sorted file searched with binary search
+- Hyphenated words and words that already carry a stress mark are handled
+- A REST API with request validation and JSON error responses
+- Automated tests for the engine and the API
+
+## Quick start
+
+**Requirements**
+
+- Node.js `v24.14.0` or newer
+- pnpm `11.25.0` or newer
+- Git
+
+**1. Clone and install**
+
+```bash
+git clone https://github.com/salhi-el-mahdi/Udarenie.git
+cd udarenie
+pnpm install
 ```
 
-You can build a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
+**2. Build the dictionary**
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
+This downloads the source dataset (about 10 MB), verifies it, and generates the dictionary file (about 72 MB) in `packages/stress-engine/data/generated/`. The generated file is not committed, so every fresh clone must run this step.
 
-```sh
-turbo build --filter=docs
+```bash
+pnpm --filter @udarenie/stress-engine build:dictionary
 ```
 
-Without global `turbo`:
+**3. Start the API**
 
-```sh
-npx turbo build --filter=docs
-pnpm exec turbo build --filter=docs
-pnpm exec turbo build --filter=docs
+```bash
+pnpm --filter @udarenie/api dev
 ```
 
-### Develop
+The API listens on port 4000. Set the `PORT` environment variable to use another port. It loads the dictionary at startup, so step 2 must be done first.
 
-To develop all apps and packages, run the following command:
+**4. Try it**
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
+In a second terminal:
 
-```sh
-cd my-turborepo
-turbo dev
+```bash
+curl -X POST http://localhost:4000/stress \
+  -H "Content-Type: application/json" \
+  -d '{"text": "Я люблю русский язык."}'
 ```
 
-Without global `turbo`, use your package manager:
+Expected answer:
 
-```sh
-cd my-turborepo
-npx turbo dev
-pnpm exec turbo dev
-pnpm exec turbo dev
+```json
+{"annotatedText":"Я люблю́ ру́сский язы́к."}
 ```
 
-You can develop a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
+Health check: `curl http://localhost:4000/health`
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
+> **Windows PowerShell:** quoting and text encoding need extra care when sending non-ASCII text. See the API documentation.
 
-```sh
-turbo dev --filter=web
+## Running the tests
+
+```bash
+pnpm --filter @udarenie/stress-engine test
+pnpm --filter @udarenie/api test
 ```
 
-Without global `turbo`:
+The tests do not need the generated dictionary file.
 
-```sh
-npx turbo dev --filter=web
-pnpm exec turbo dev --filter=web
-pnpm exec turbo dev --filter=web
+## How it works
+
+1. A build script downloads a pinned version of the dataset, verifies its checksum, validates every line, and writes a sorted dictionary file.
+2. When the API starts, it loads that file. Lookups use binary search over the raw bytes.
+3. The engine splits text into words and punctuation, looks up each word, and inserts a combining acute accent (U+0301) after the stressed vowel.
+
+More detail: [dictionary pipeline](docs/dictionary-pipeline-v2.md).
+
+## Known limitations
+
+- Words that are not in the dictionary are returned unchanged.
+- The dataset stores one stress position per word form, so words whose stress depends on context (such as замок) can be wrong.
+- By design, the letter `ё` (always stressed) and words with a single vowel are not marked.
+
+## Project structure
+
+```text
+apps/
+  api/              Express API (POST /stress, GET /health)
+  web/              web app (starter template for now)
+packages/
+  stress-engine/    tokenizer, stress rules, dictionary build and lookup
+  shared-types/     the API contract (request, response and error types)
+  shared-utils/     shared helpers (empty for now)
+  eslint-config/    shared lint configuration
+  typescript-config/ shared TypeScript configuration
+docs/               documentation and learning notes
 ```
 
-### Remote Caching
+## Documentation
 
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
+- API reference: `docs/api.md` (in progress)
+- [Dictionary pipeline](docs/dictionary-pipeline-v2.md)
+- [Learning notes (course)](docs/course/00-index.md)
 
-Turborepo can use a technique known as [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
+## Status
 
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
+**In progress**
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
+- Documentation and open-source preparation (README, license, API reference)
 
-```sh
-cd my-turborepo
-turbo login
-```
+**Planned**
 
-Without global `turbo`, use your package manager:
+- Reporting words missing from the dictionary
+- A web playground
+- EPUB and PDF support
+- A browser extension and a mobile app
+- Restoring `ё` where texts write `е`
+- Pronunciation hints beyond stress
+- Context-based disambiguation of ambiguous words
 
-```sh
-cd my-turborepo
-npx turbo login
-pnpm exec turbo login
-pnpm exec turbo login
-```
+## License and data
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+The code is released under the MIT license (see `LICENSE`).
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
-
-```sh
-turbo link
-```
-
-Without global `turbo`:
-
-```sh
-npx turbo link
-pnpm exec turbo link
-pnpm exec turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turborepo.dev/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.dev/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.dev/docs/reference/configuration)
-- [CLI Usage](https://turborepo.dev/docs/reference/command-line-reference)
+The stress dictionary is generated from [russian-ukrainian-stress-data](https://github.com/eugenysilin/russian-ukrainian-stress-data), which is derived from Wiktionary and licensed under CC BY-SA 4.0. See `NOTICE.md` for the attribution and the changes made.
