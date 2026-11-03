@@ -141,6 +141,6 @@ docs/               documentation and learning notes
 
 ## License and data
 
-The code is released under the MIT license (see `LICENSE`).
+The code is released under the MIT license (see [LICENSE](LICENSE)).
 
-The stress dictionary is generated from [russian-ukrainian-stress-data](https://github.com/eugenysilin/russian-ukrainian-stress-data), which is derived from Wiktionary and licensed under CC BY-SA 4.0. See `NOTICE.md` for the attribution and the changes made.
+The stress dictionary is generated from [russian-ukrainian-stress-data](https://github.com/eugenysilin/russian-ukrainian-stress-data), which is derived from Wiktionary and licensed under CC BY-SA 4.0. See [NOTICE.md](NOTICE.md) for the attribution and the changes made.
