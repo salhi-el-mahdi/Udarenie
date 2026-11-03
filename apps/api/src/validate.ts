@@ -6,7 +6,7 @@ export function parseStressRequest(body: unknown): StressRequest {
 
     if (typeof body !== "object" || body === null || Array.isArray(body)) {
         throw new HttpError(400, "INVALID_REQUEST",
-            "Request body must be a JSON object like { "text": "..." }, sent with Content-Type: application/json."
+            `Request body must be a JSON object like { "text": "..." }, sent with Content-Type: application/json.`
         );
     }
 
