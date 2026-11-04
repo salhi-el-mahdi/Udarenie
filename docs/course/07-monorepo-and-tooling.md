@@ -111,6 +111,26 @@ Tools you will see: **tsx** runs TypeScript files directly (handy for scripts an
 - "LF will be replaced by CRLF" warnings on Windows are line-ending conversions and are harmless.
 - Never commit secrets or large generated files. If something huge was committed by accident, tell someone before doing anything else: removing it from history is a delicate operation.
 
+### Reading `git status`, and knowing what is pushed
+
+| Section in the output | Meaning |
+|---|---|
+| **Changes to be committed** | Staged with `git add`; the next commit will include them |
+| **Changes not staged for commit** | Tracked files you modified but have not staged |
+| **Untracked files** | New files git does not know yet |
+| "Your branch is up to date with 'origin/main'" | You have no commits that the remote lacks, **as far as git last checked** (run `git fetch` to refresh) |
+
+Useful commands:
+
+```powershell
+git diff <file>              # what exactly changed in a file (not yet staged)
+git log --oneline -8         # the last commits
+git log origin/main..HEAD    # commits you have NOT pushed (empty means everything is pushed)
+git restore --staged <file>  # unstage a file without losing changes
+```
+
+**Commands copied from instructions may not match your situation.** Someone's `git add` list assumes a state you may already have moved past (for example files you committed earlier). Run `git status` first and `git add` only the files it actually lists. If the state surprises you, read it before you act.
+
 ## 9. Windows and PowerShell notes
 
 - Quote arguments that contain special characters: `"@repo/typescript-config@workspace:*"`.

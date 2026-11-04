@@ -82,6 +82,29 @@ const length = user?.name?.length;                             // ?. : stop safe
 if (a === b) {}                        // always use ===, never ==
 ```
 
+## 3b. Strings and quotes
+
+A string is delimited by a matching pair of quotes, and it **ends at the next matching quote**. There are three kinds:
+
+```ts
+const a = "double quotes";
+const b = 'single quotes';
+const c = `backticks: can contain ${expressions} and span several lines`;
+```
+
+A quote of the **same kind** inside the string ends it early and causes a syntax error:
+
+```ts
+const bad = "Body like { "text": "..." }";        // ends after "Body like { "
+const ok1 = 'Body like { "text": "..." }';        // different outer quote
+const ok2 = `Body like { "text": "..." }`;        // backticks also work
+const ok3 = "Body like { \"text\": \"...\" }";    // escape each inner quote with a backslash
+```
+
+- Choose the outer quote that does not appear inside the text, or escape the inner ones.
+- Backticks (template literals) are also the way to insert values: `` `Limit is ${MAX} characters` ``.
+- A syntax error at the top of a file makes the whole file fail to load. In a test run it shows up as a failed suite with `0 tests`, not as one failed test.
+
 ## 4. Arrays, strings and collections
 
 ```ts
@@ -141,6 +164,7 @@ try {
 ## Common mistakes
 
 - Forgetting `()` when calling a method (`sort`, `trim`, `toLowerCase`).
+- Putting a double quote inside a double-quoted string (use a different outer quote or escape it).
 - Using `=` (assign) where `===` (compare) was meant.
 - Forgetting `await` (chapter 04).
 - Trusting a type for data that came from outside the program.

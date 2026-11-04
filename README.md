@@ -77,7 +77,7 @@ Expected answer:
 
 Health check: `curl http://localhost:4000/health`
 
-> **Windows PowerShell:** quoting and text encoding need extra care when sending non-ASCII text. See the API documentation.
+> **Windows PowerShell:** quoting and text encoding need extra care when sending non-ASCII text. See the [API documentation](docs/api.md#notes-for-windows-powershell).
 
 ## Running the tests
 
@@ -119,7 +119,7 @@ docs/               documentation and learning notes
 
 ## Documentation
 
-- API reference: `docs/api.md` (in progress)
+- [API reference](docs/api.md)
 - [Dictionary pipeline](docs/dictionary-pipeline-v2.md)
 - [Learning notes (course)](docs/course/00-index.md)
 
