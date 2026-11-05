@@ -17,3 +17,5 @@ The purpose of unknown-word reporting is to identify gaps in the dictionary and 
 | 9 | the same unknown word several times | once, with a **count** | frequency is what makes the list useful |
 | 10 | text with Latin letters, digits or punctuation | no | they are not Russian word tokens |
 | 11 | a token longer than 55 characters | no | probably garbage, such as a pasted string |
+
+For hyphenated words, the 55-character limit is applied to each reported part individually, not to the original token. Unknown-word reporting operates on the part that is missing from the dictionary.
