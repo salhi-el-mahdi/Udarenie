@@ -81,6 +81,22 @@ Notice the trigger: most duties apply when you **share**.
 - Adding **your own improvements** to such data makes an adaptation: if you share it, it is CC BY-SA too.
 - If a business ever needs a proprietary dataset, the options are to build one from sources that allow it, or to get a separate license from the rights holders.
 
+### 7b. Keeping your own data separate
+
+ShareAlike applies to **adapted material**: material derived from or based on the licensed data. It does not automatically reach everything that sits next to it. Roughly (and always subject to a lawyer's check for a real product):
+
+| Situation | What it means |
+|---|---|
+| Your server uses the dataset and users only receive results | The data is not shared, so ShareAlike is not triggered |
+| An app ships the converted dataset file | The file is shared adapted material: attribution, a statement of your changes, and CC BY-SA for that file. Your app's code is a separate work and is not forced open |
+| A **separate** file of entries you created yourself, from your own knowledge or from sources whose licenses allow it | Not derived from the dataset, so it can have its own license. The two files are a **collection**, not one adapted database |
+| Entries copied or derived from the dataset, or merged into the same file or database | Adapted material: CC BY-SA applies when you share it |
+| Entries taken from another source | That source's license applies to them |
+
+The key idea is **separation**: keep third-party data and your own data in separate files, and combine them at runtime (for example a dictionary that checks your file first and then the dataset). Merging them into a single database is what turns the whole thing into adapted material. Section 4(b) of the license says exactly that for databases: a database in which you have database rights that includes a substantial portion of the licensed contents is itself adapted material.
+
+Other points: the license also forbids adding technical locks that stop recipients from using the shared data as the license allows, and "derived from the dataset" includes copying stress positions you looked up in it.
+
 ## 8. Attribution in practice
 
 - A **NOTICE** file lists third-party material: what it is, where it came from (with a **pinned version**, and a checksum if you can), who is credited **in the words the author asks for**, its license (with a link), **what was changed** (both by the original maintainer and by you), how you use it, and what anyone must do if they redistribute it.
