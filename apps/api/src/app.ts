@@ -2,7 +2,7 @@ import express from "express";
 import { annotateText, type StressDictionary } from "@udarenie/stress-engine";
 import type { HealthResponse, StressResponse } from "@udarenie/shared-types";
 import { parseStressRequest } from "./validate";
-import { errorHandler, notFoundHandler } from "./error-handlers.js";
+import { errorHandler, notFoundHandler } from "./error-handlers";
 
 export function createApp(dictionary: StressDictionary) {
     const app = express();

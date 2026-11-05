@@ -1,5 +1,5 @@
 import { annotateWord } from "./annotate-word";
-import type { StressDictionary } from "./binary-dictionary.js";
+import type { StressDictionary } from "./binary-dictionary";
 import { tokenize, isWord } from "./tokenize";
 
 export function annotateText(text: string, dictionary: StressDictionary): string {

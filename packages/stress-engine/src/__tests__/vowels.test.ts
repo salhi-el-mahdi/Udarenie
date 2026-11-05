@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { countVowels } from "../vowels.js";
+import { countVowels } from "../vowels";
 
 describe("countVowels", () => {
     it("single word", () => {

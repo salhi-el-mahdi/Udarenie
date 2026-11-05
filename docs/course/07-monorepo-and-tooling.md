@@ -90,6 +90,24 @@ Each package has a `tsconfig.json`. A shared base config lives in its own packag
 
 Tools you will see: **tsx** runs TypeScript files directly (handy for scripts and development servers); **Vitest** runs tests; neither checks types.
 
+### Module resolution and import extensions
+
+TypeScript must decide how to find the file behind `import ... from "./vowels"`. The `module` and `moduleResolution` settings choose the rules:
+
+| Setting | Rules | Imports of your own files |
+|---|---|---|
+| `"NodeNext"` | Mirrors how Node.js itself loads ES modules | Need an **explicit extension**: `./vowels.js`, even though the source file is `vowels.ts`. Without it the editor reports error TS2835 |
+| `"ESNext"` with `"Bundler"` | Mirrors how bundlers and runners such as tsx, Vitest, Vite and Next.js behave | Extensionless imports are fine: `./vowels` |
+
+Choose by **how the code will really run**:
+
+- Run through tsx, Vitest, or a bundler (Next.js, Vite, esbuild): `Bundler` matches reality, and extensionless imports are the natural style.
+- Compiled by `tsc` and then run directly with `node`: `NodeNext` is correct, and the extensions are required, because Node itself will refuse extensionless relative imports.
+
+The editor showing errors while the tests pass means the settings disagree with the tools that actually run the code. Fix the setting, not every import. After changing a `tsconfig`, restart the editor's TypeScript server (`Ctrl+Shift+P`, then "TypeScript: Restart TS Server"), because it caches its settings.
+
+A shared base config affects every package that extends it, so a change there should be a deliberate decision, ideally in its own commit.
+
 ## 7. Folder conventions
 
 | Folder | Purpose |
