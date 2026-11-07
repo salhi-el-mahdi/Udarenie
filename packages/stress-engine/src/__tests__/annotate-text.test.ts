@@ -51,3 +51,49 @@ describe("annotateText", () => {
     expect(annotateText("Привет, мир!", dictionary)).toBe("Приве\u0301т, мир!");
   });
 });
+
+describe("annotateText: unknown word reporting", () => {
+  function reportedFor(text: string): string[] {
+    const reported: string[] = [];
+    annotateText(text, dictionary, (w) => reported.push(w));
+    return reported;
+  }
+
+  it("reports only the unknown word, not the other words or the punctuation”", () => {
+    expect(reportedFor("Я люблю тестирование.")).toEqual(["тестирование"]);
+  })
+
+  it("reports more than one unknown word", () => {
+    expect(reportedFor("тестирование и образование")).toEqual(["тестирование", "образование"]);
+  })
+
+  it("does not report known and short words", () => {
+    expect(reportedFor("Привет, мир!")).toEqual([]);
+  })
+
+  it("does not report latin words and digits", () => {
+    expect(reportedFor("test 123 тестирование")).toEqual(["тестирование"]);
+  })
+
+  it("does not report empty strings", () => {
+    expect(reportedFor("")).toEqual([]);
+  })
+
+  it("reports each occurence of an unknown word", () => {
+    expect(reportedFor("тестирование тестирование")).toEqual(["тестирование", "тестирование"]);
+  });
+
+  it("reports the unknown part of hyphenated word inside a text", () => {
+    expect(reportedFor("Я люблю русский-тестирование.")).toEqual(["тестирование"]);
+  })
+
+  it("works without a reporting callback", () => {
+    expect(annotateText("Я люблю тестирование.", dictionary)).toBe("Я люблю\u0301 тестирование.");
+  });
+
+  it("works with a reporting callback", () => {
+    const reported: string[] = [];
+    expect(annotateText("Я люблю тестирование.", dictionary, (w) => reported.push(w))).toBe("Я люблю\u0301 тестирование.");
+  });
+
+})
