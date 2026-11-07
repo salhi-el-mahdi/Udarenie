@@ -64,58 +64,73 @@ describe("annotateWord: stress rules", () => {
 });
 
 describe("annotateWord: unknown word reporting", () => {
-  it("reports an unknown word with 2 or more vowels", () => {
+  function reportedFor(word: string): string[] {
     const reported: string[] = [];
-    annotateWord("тестирование", dictionary, (word) => reported.push(word));
-    expect(reported).toEqual(["тестирование"]);
+
+    annotateWord(
+      word,
+      dictionary,
+      (w) => reported.push(w),
+    );
+
+    return reported;
+  }
+
+  it("reports an unknown word with 2 or more vowels", () => {
+    expect(
+      reportedFor("тестирование"),
+    ).toEqual(["тестирование"]);
   });
 
   it("reports an unknown uppercase word with 2 or more vowels", () => {
-    const reported: string[] = [];
-    annotateWord("Тестирование", dictionary, (word) => reported.push(word));
-    expect(reported).toEqual(["тестирование"]);
+    expect(
+      reportedFor("Тестирование"),
+    ).toEqual(["тестирование"]);
   });
 
   it("does not report a known word", () => {
-    const reported: string[] = [];
-    annotateWord("молоко", dictionary, (word) => reported.push(word));
-    expect(reported).toEqual([]);
+    expect(
+      reportedFor("молоко"),
+    ).toEqual([]);
   });
 
   it("does not report a found word that the stress policy does not mark", () => {
-    const reported: string[] = [];
-    annotateWord("пришёл", dictionary, (word) => reported.push(word));
-    expect(reported).toEqual([]);
+    expect(
+      reportedFor("пришёл"),
+    ).toEqual([]);
   });
 
   it("does not report an unknown one-vowel word", () => {
-    const reported: string[] = [];
-    annotateWord("дом", dictionary, (word) => reported.push(word));
-    expect(reported).toEqual([]);
+    expect(
+      reportedFor("дом"),
+    ).toEqual([]);
   });
 
   it("does not report a word that already contains a stress mark", () => {
-    const reported: string[] = [];
-    annotateWord("тести\u0301рование", dictionary, (word) => reported.push(word));
-    expect(reported).toEqual([]);
+    expect(
+      reportedFor("тести́рование"),
+    ).toEqual([]);
   });
 
   it("does not report a hyphenated word when all parts are known", () => {
-    const reported: string[] = [];
-    annotateWord("русский-язык", dictionary, (word) => reported.push(word));
-    expect(reported).toEqual([]);
+    expect(
+      reportedFor("русский-язык"),
+    ).toEqual([]);
   });
 
   it("reports the unknown part of a hyphenated word", () => {
-    const reported: string[] = [];
-    annotateWord("русский-тестирование", dictionary, (word) => reported.push(word));
-    expect(reported).toEqual(["тестирование"]);
+    expect(
+      reportedFor("русский-тестирование"),
+    ).toEqual(["тестирование"]);
   });
 
   it("reports both unknown parts of a hyphenated word in order", () => {
-    const reported: string[] = [];
-    annotateWord("тестирование-образование", dictionary, (word) => reported.push(word));
-    expect(reported).toEqual(["тестирование", "образование"]);
+    expect(
+      reportedFor("тестирование-образование"),
+    ).toEqual([
+      "тестирование",
+      "образование",
+    ]);
   });
 
   it("works without a reporting callback", () => {
