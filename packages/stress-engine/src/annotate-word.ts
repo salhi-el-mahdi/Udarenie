@@ -2,8 +2,9 @@ import { applyStress } from "./apply-stress";
 import type { StressDictionary } from "./binary-dictionary";
 import { isVowel } from "./vowels";
 import { shouldMarkStress } from "./stress-policy";
+import { shouldReportUnknown } from "./unknown-words";
 
-export function annotateWord(word: string, dictionary: StressDictionary,onUnknown?:(word:string)=>void): string {
+export function annotateWord(word: string, dictionary: StressDictionary, onUnknown?: (word: string) => void): string {
   const stressIndex = dictionary.get(word.toLowerCase());
 
   if (stressIndex !== undefined) {
@@ -21,8 +22,10 @@ export function annotateWord(word: string, dictionary: StressDictionary,onUnknow
   }
 
   if (word.includes("-")) {
-    return word.split("-").map((part) => annotateWord(part, dictionary)).join("-");
+    return word.split("-").map((part) => annotateWord(part, dictionary,onUnknown)).join("-");
   }
-
+  if (shouldReportUnknown(word)) {
+    onUnknown?.(word.toLowerCase());
+  }
   return word;
 }
