@@ -102,6 +102,33 @@ Data entering your program from outside (a file, a user, a network request) cann
 
 When two parts of a system must talk (an API and its clients), agree on the **contract** first: the exact shapes of requests and responses, the limits, and the errors. Writing the contract as shared types means the compiler flags both sides when it changes. Design contracts so they can **grow**: adding a field to an object does not break existing users, while changing a bare value into an object does.
 
+## 8. Organizing files: folders and the direction of dependencies
+
+When a package grows, group files **by concept**, not by file type. Folders such as `utils/` or `helpers/` become junk drawers; folders named for what they are about (`text/`, `dictionary/`, `stress/`) stay meaningful.
+
+The more important rule is the **direction of dependencies**:
+
+- Draw an arrow from each folder to the folders it imports from. The picture should flow **one way**, from the high-level code (the entry points that combine things) down to the low-level building blocks.
+- Low-level folders (text handling, dictionary access, small rules) must not import from the high-level ones. Two folders that import from each other are a warning sign, even if no single file forms a loop.
+- A **circular import** (A imports B, B imports A, directly or through other files) can leave a value undefined while the files load and produces confusing errors. Fix it by moving the shared piece down, or by putting the code that needs both on top of them in a new file.
+
+Example of a one-way structure:
+
+```text
+stress/            (entry points: annotate-word, annotate-text, annotate-with-report)
+   │ uses
+   ├──▶ text/             (tokenizing, vowels)
+   ├──▶ dictionary/       (lookup)
+   └──▶ unknown-words/    (the rule for what counts)
+```
+
+Practical habits for reorganizing:
+
+- Do it as **its own change**, with the tests green before and after and **no behavior change** (a pure refactoring).
+- Use the editor's move tools, which update imports automatically. Then check files that the editor may not track (scripts outside the project's `include`).
+- Keep the package's public entry (`index.ts`) stable: other packages import only from it, so internal moves do not affect them.
+- Reorganize when the structure starts to hurt (roughly a dozen files in a folder, or clear clusters), not before, and not in the middle of a feature.
+
 ## Common mistakes
 
 - Functions that quietly read global state or do I/O in the middle of logic.
