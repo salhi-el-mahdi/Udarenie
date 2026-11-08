@@ -1,8 +1,8 @@
 import { applyStress } from "./apply-stress";
 import type { StressDictionary } from "../dictionary/binary-dictionary";
 import { isVowel } from "../text/vowels";
-import { shouldMarkStress } from "./stress-policy";
-import { shouldReportUnknown } from "../unknown-words/unknown-words";
+import { shouldMarkStress } from "../rules/stress-policy";
+import { shouldReportUnknown } from "../rules/unknown-words";
 
 export function annotateWord(word: string, dictionary: StressDictionary, onUnknown?: (word: string) => void): string {
   const stressIndex = dictionary.get(word.toLowerCase());

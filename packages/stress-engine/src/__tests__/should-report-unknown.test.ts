@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { shouldReportUnknown, MAX_UNKNOWN_WORD_LENGTH } from "../unknown-words/unknown-words";
+import { shouldReportUnknown, MAX_UNKNOWN_WORD_LENGTH } from "../rules/unknown-words";
 
 describe("shouldReportUnknown", () => {
     it("returns true for a word with 2 or more vowels", () => {

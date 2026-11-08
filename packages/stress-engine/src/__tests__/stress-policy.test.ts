@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { shouldMarkStress } from "../stress/stress-policy";
+import { shouldMarkStress } from "../rules/stress-policy";
 
 describe("shouldMarkStress", () => {
     it("normal word", () => {
