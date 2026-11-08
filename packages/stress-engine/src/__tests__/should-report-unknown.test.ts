@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { shouldReportUnknown, MAX_UNKNOWN_WORD_LENGTH } from "../unknown-words";
+import { shouldReportUnknown, MAX_UNKNOWN_WORD_LENGTH } from "../unknown-words/unknown-words";
 
 describe("shouldReportUnknown", () => {
     it("returns true for a word with 2 or more vowels", () => {
@@ -24,13 +24,13 @@ describe("shouldReportUnknown", () => {
 
     it("returns true for a word with the same length as maximum length", () => {
         expect(shouldReportUnknown("а".repeat(MAX_UNKNOWN_WORD_LENGTH))).toBe(true);
-});
-
-it("returns true, ё counts as a vowel ", () => {
-    expect(shouldReportUnknown("ёлка")).toBe(true);
     });
 
-it("returns false for a word over the maximum length", () => {
-    expect(shouldReportUnknown("а".repeat(MAX_UNKNOWN_WORD_LENGTH + 1))).toBe(false);
+    it("returns true, ё counts as a vowel ", () => {
+        expect(shouldReportUnknown("ёлка")).toBe(true);
+    });
+
+    it("returns false for a word over the maximum length", () => {
+        expect(shouldReportUnknown("а".repeat(MAX_UNKNOWN_WORD_LENGTH + 1))).toBe(false);
     });
 });

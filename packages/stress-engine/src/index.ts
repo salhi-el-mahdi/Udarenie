@@ -1,8 +1,8 @@
-export { annotateWord } from "./annotate-word";
-export { annotateText } from "./annotate-text";
-export { createBinaryDictionary } from "./binary-dictionary";
-export { loadDictionary } from "./load-dictionary";
-export {annotateTextWithReport} from "./annotate-with-report"
+export { annotateWord } from "./stress/annotate-word";
+export { annotateText } from "./stress/annotate-text";
+export { createBinaryDictionary } from "./dictionary/binary-dictionary";
+export { loadDictionary } from "./dictionary/load-dictionary";
+export { annotateTextWithReport } from "./stress/annotate-with-report"
 
-export type { StressDictionary } from "./binary-dictionary";
-export type {UnknownWordCount, AnnotationReport} from "./annotate-with-report"
+export type { StressDictionary } from "./dictionary/binary-dictionary";
+export type { UnknownWordCount, AnnotationReport } from "./stress/annotate-with-report"

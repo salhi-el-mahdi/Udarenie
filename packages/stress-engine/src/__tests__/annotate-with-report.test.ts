@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
-import { annotateTextWithReport } from "../annotate-with-report";
+import { annotateTextWithReport } from "../stress/annotate-with-report";
 import { dictionaryFromEntries } from "./helpers/test-dictionary";
-import { annotateText } from "../annotate-text";
+import { annotateText } from "../stress/annotate-text";
 
 const dictionary = dictionaryFromEntries({
     русский: 1,

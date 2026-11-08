@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { createBinaryDictionary } from "../binary-dictionary";
+import { createBinaryDictionary } from "../dictionary/binary-dictionary";
 
 const sample = Buffer.from(
     "а-ля\t3\nкто-то\t2\nмолоко\t5\nрусский\t1\n",

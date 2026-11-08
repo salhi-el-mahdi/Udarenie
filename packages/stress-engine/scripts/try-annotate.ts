@@ -1,5 +1,5 @@
-import { loadDictionary } from "../src/load-dictionary";
-import { annotateText } from "../src/annotate-text";
+import { loadDictionary } from "../src/dictionary/load-dictionary";
+import { annotateText } from "../src/stress/annotate-text";
 
 async function main() {
     const dictionary = await loadDictionary("data/generated/ru-stress.tsv");

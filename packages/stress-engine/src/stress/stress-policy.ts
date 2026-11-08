@@ -1,4 +1,4 @@
-import { countVowels } from "./vowels";
+import { countVowels } from "../text/vowels";
 
 // index must point inside word: annotateWord checks this
 export function shouldMarkStress(

@@ -1,4 +1,4 @@
-import { countVowels } from "./vowels";
+import { countVowels } from "../text/vowels";
 
 export const MAX_UNKNOWN_WORD_LENGTH = 55;
 export function shouldReportUnknown(word: string): boolean {

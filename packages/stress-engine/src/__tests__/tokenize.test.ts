@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { tokenize, isWord } from "../tokenize";
+import { tokenize, isWord } from "../text/tokenize";
 
 describe("tokenize", () => {
   it("never loses characters", () => {
@@ -25,7 +25,7 @@ describe("tokenize", () => {
   });
 
   it("keeps an already-stressed word as one token", () => {
-  expect(tokenize("молоко\u0301")).toEqual(["молоко\u0301"]);
+    expect(tokenize("молоко\u0301")).toEqual(["молоко\u0301"]);
   });
 });
 

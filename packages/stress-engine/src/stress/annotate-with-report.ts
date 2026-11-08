@@ -1,5 +1,5 @@
 import { annotateText } from "./annotate-text";
-import type { StressDictionary } from "./binary-dictionary";
+import type { StressDictionary } from "../dictionary/binary-dictionary";
 
 export interface UnknownWordCount { word: string; count: number }
 export interface AnnotationReport { annotatedText: string; unknownWords: UnknownWordCount[] }

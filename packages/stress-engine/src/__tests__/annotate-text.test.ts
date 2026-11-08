@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { annotateText } from "../annotate-text";
+import { annotateText } from "../stress/annotate-text";
 import { dictionaryFromEntries } from "./helpers/test-dictionary";
 
 const dictionary = dictionaryFromEntries({
