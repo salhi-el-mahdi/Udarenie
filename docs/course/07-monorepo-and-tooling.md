@@ -119,6 +119,26 @@ A shared base config affects every package that extends it, so a change there sh
 | `data/` | Input and generated data. Large or rebuildable data is git-ignored |
 | `docs/` | Documentation for people |
 
+### Where does a new file or piece of code go?
+
+Defaults to apply when nobody tells you:
+
+| What | Where |
+|---|---|
+| A test | In the package's `__tests__` folder, named after what it tests (`annotate-word.ts` has `annotate-word.test.ts`). A feature that spans several files can get its own descriptive name |
+| A test helper or fake used by **one** test file | At the top of that file, above the `describe` |
+| A test helper or fake used by **two or more** test files | `__tests__/helpers/` |
+| Code that **runs** in a test (creating the app, sending a request, calling the function) | Inside the `it` (or `beforeEach`), never at the top level of the file. Top-level state is shared and leaks between tests. Only read-only fixtures (a test dictionary) belong at the top |
+| A type or interface | Next to the code that **owns** it. An interface for an injected collaborator lives with the code that **uses** it (the API's store interface lives in the API) |
+| A type shared by two packages (an API contract) | `shared-types`, and only once it is really shared |
+| A function shared by two packages | `shared-utils`, and only once it is really shared |
+| A developer tool run by hand | `scripts/` |
+| Documentation | `docs/` |
+| Generated or downloaded data | `data/`, git-ignored |
+| A new source file | In the folder of its **concept**, in the package that owns the concern. Ask: who uses it, and what changes together with it? |
+
+Habits: **start local and promote when reused** (moving things is cheap with the editor's refactoring tools, while guessing a shared home too early creates clutter). Other packages import only from a package's entry file; inside a package, use relative paths. File names are kebab-case and match the main thing they export. If you are not sure, put it where it is used, say so in your question ("I'd put it in X, is that right?"), and move it later if needed.
+
 ## 8. Git habits that prevent disasters
 
 - **Read `git status` before every commit.** It takes five seconds and is your best protection against committing something you did not mean to.
