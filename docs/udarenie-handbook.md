@@ -90,7 +90,7 @@ When you are wrong (a wrong command, a wrong assumption), say it in one sentence
 
 ### 12. Write a course chapter after each finished part
 
-General lessons only (not project-specific): concepts, examples, common mistakes, practice with answers, and where it appeared. Chapters live in `docs/course/`, numbered in the order written. Written so far: 00 index, 01 TypeScript and JavaScript essentials, 02 Text, Unicode and regex, 03 Testing, 04 Async and Node, 05 Design principles, 06 Algorithms and performance, 07 Monorepos and tooling, 08 APIs and HTTP, 09 Agile and Jira, 10 Express in depth, 11 Licensing and attribution, 12 Writing documentation. Planned next: browsers and CORS, file formats (ZIP, XML, EPUB), databases basics, Docker and deployment, GitHub pull requests and automated checks.
+General lessons only (not project-specific): concepts, examples, common mistakes, practice with answers, and where it appeared. Chapters live in `docs/course/`, numbered in the order written. Written so far: 00 index, 01 TypeScript and JavaScript essentials, 02 Text, Unicode and regex, 03 Testing, 04 Async and Node, 05 Design principles, 06 Algorithms and performance, 07 Monorepos and tooling, 08 APIs and HTTP, 09 Agile and Jira, 10 Express in depth, 11 Licensing and attribution, 12 Writing documentation, 13 Working with files. Planned next: file formats (ZIP, XML, EPUB), databases basics, browsers and CORS, Docker and deployment, GitHub pull requests and automated checks.
 
 ### 13. Improve the learner's words, do not replace them
 
