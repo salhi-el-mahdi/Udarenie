@@ -27,16 +27,17 @@ Suggested location in the repository: `docs/course/`. The `docs/` folder is wher
 | 10 | Express in depth | middleware order, validation, custom errors, error handlers, good error messages |
 | 11 | Licensing and open-source attribution | copyright, MIT, copyleft, CC BY-SA, NOTICE files, dependencies |
 | 12 | Writing documentation | kinds of docs, README, API reference, Markdown, rules for good docs |
+| 13 | Working with files in Node.js | paths, bytes and encodings, the fs toolbox, errors, safe writes, JSON Lines, testing with temporary folders |
 
 ## Planned chapters
 
 Added after the matching part of the project is finished:
 
-- 13 Browsers and CORS (calling the API from a web app)
 - 14 File formats: ZIP, XML and EPUB
 - 15 Databases basics (storing unknown words)
-- 16 Docker and deployment
-- 17 GitHub, pull requests and automated checks
+- 16 Browsers and CORS (calling the API from a web app)
+- 17 Docker and deployment
+- 18 GitHub, pull requests and automated checks
 
 ## The rule for growing this course
 
