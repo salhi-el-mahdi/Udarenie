@@ -1,13 +1,7 @@
 import { appendFile, mkdir } from "node:fs/promises";
 import { dirname } from "node:path";
-
-import type {
-    UnknownWordCount,
-} from "@udarenie/stress-engine";
-
-import type {
-    UnknownWordStore,
-} from "./unknown-word-store";
+import type { UnknownWordCount } from "@udarenie/stress-engine";
+import type { UnknownWordStore } from "./unknown-word-store";
 
 export function createFileUnknownWordStore(
     filePath: string,
