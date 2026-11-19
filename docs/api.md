@@ -14,6 +14,30 @@ To use another port, set the `PORT` environment variable before starting the ser
 
 The server must be **running** before you send requests: start it in one terminal and leave that terminal open, then send requests from a second terminal. If a request fails with "connection refused" (curl says `Could not connect to server`), no server is listening on that address: it is not running, or you used the wrong port. Use the API's port (4000 by default), not the web app's port (3000).
 
+## Configuration
+
+The API can be configured with environment variables.
+
+| Variable | Default | Meaning |
+|---|---|---|
+| `PORT` | `4000` | The HTTP port the API listens on |
+| `UNKNOWN_WORDS_FILE` | `apps/api/data/unknown-words.jsonl` | Path to the JSON Lines file used for unknown-word reports |
+
+### Unknown-word reports
+
+When the API encounters a word that is not present in the dictionary and meets the reporting rules, it records:
+
+- the unknown word
+- its count within the request
+- a timestamp
+
+The original submitted text is never stored.
+
+Each line of the file is a complete JSON object:
+
+```json
+{"at":"2026-01-01T00:00:00.000Z","words":[{"word":"тестирование","count":2}]}
+
 ## Format
 
 - Requests and responses use **JSON**, and so do error responses.
