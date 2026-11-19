@@ -4,7 +4,7 @@ import type { StressDictionary } from "./binary-dictionary";
 import { fileURLToPath } from "node:url";
 
 const DEFAULT_PATH = fileURLToPath(
-    new URL("../data/generated/ru-stress.tsv", import.meta.url)
+    new URL("../../data/generated/ru-stress.tsv", import.meta.url)
 );
 
 export async function loadDictionary(
