@@ -38,3 +38,5 @@ yarn-error.log*
 # Downloaded and generated dictionary data
 packages/stress-engine/data/raw/
 packages/stress-engine/data/generated/
+
+apps/api/data
